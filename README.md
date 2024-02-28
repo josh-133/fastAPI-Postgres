@@ -1,4 +1,4 @@
-# fastAPI-Postgres
-FastAPI with PostgreSQL and Docker.
+# fastAPI-SQL
+FastAPI with SQL.
 
-Following tutorial from https://www.youtube.com/watch?v=2X8B_X2c27Q.
+Following tutorial from https://www.youtube.com/watch?v=eltKL8kC160.
