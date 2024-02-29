@@ -1,4 +1,5 @@
 import fastapi as _fastapi
+from typing import List
 import sqlalchemy.orm as _orm
 import services as _services, schemas as _schemas
 
@@ -14,3 +15,12 @@ def create_user(user: _schemas.UserCreate, db: _orm.Session=_fastapi.Depends(_se
         raise _fastapi.HTTPException(status_code=400, detail="woops the email is in use")
     
     return _services.create_user(db=db, user=user)
+
+@app.get("/users/", response_model=List[_schemas.User])
+def read_users(
+    skip: int = 0,
+    limit: int = 10,
+    db: _orm.Session = _fastapi.Depends(_services.get_db),
+):
+    users = _services.get_users(db=db, skip=skip, limit=limit)
+    return users

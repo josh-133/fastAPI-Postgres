@@ -21,3 +21,6 @@ def create_user(db: _orm.Session, user: _schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def get_users(db: _orm.Session, skip: int, limit: int):
+    db.query(_models.User).offset(skip).limit(limit).all()
