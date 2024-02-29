@@ -62,4 +62,5 @@ def read_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db
 
 @app.delete("/posts/{post_id}")
 def delete_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)):
-    pass
+    _services.delete_post(db=db, post_id=post_id)
+    return {"message": f"Successfully deleted post with id: {post_id}"}

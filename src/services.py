@@ -40,3 +40,7 @@ def get_posts(db: _orm.Session, skip: int, limit: int):
 
 def get_post(db:_orm.Session, post_id: int):
     return db.query(_models.Post).filter(_models.Post.id == post_id).first()
+
+def delete_post(db: _orm.Session, post_id: int):
+    db.query(_models.Post).filter(_models.Post.id == post_id).delete()
+    db.commit()
