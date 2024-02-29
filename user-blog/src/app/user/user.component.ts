@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user',
@@ -8,12 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  users:any;
+  users: any;
 
-  constructor(private http:HttpClient) {  }
+  constructor(private service:UserService) {  }
 
   ngOnInit(): void {
-    let response = this.http.get("http://localhost:8000/users/?skip=0&limit=10")
-    response.subscribe((data)=>this.users=data);
+    this.users = this.service.getUsers().subscribe(data=>this.users=data);
   }
 }
