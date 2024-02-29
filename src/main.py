@@ -41,3 +41,25 @@ def create_post(
     db: _orm.Session = _fastapi.Depends(_services.get_db),
 ):
     return _services.create_post(db=db, post=post, user_id=user_id)
+
+@app.get("/posts/", response_model=List[_schemas.Post])
+def read_posts(
+    skip: int = 0,
+    limit: int = 10,
+    db: _orm.Session = _fastapi.Depends(_services.get_db),
+):
+    posts = _services.get_posts(db=db, skip=skip, limit=limit)
+    return posts
+
+@app.get("/posts/{post_id}", response_model=_schemas.Post)
+def read_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    post = _services.get_post(db=db, post_id=post_id)
+    
+    if post is None:
+        raise _fastapi.HTTPException(status_code=404, detail="sorry this post does not exist")
+    
+    return post
+
+@app.delete("/posts/{post_id}")
+def delete_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    pass

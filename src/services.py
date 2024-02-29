@@ -34,3 +34,9 @@ def create_post(db: _orm.Session, post: _schemas.PostCreate, user_id: int):
     db.commit()
     db.refresh(post)
     return post
+
+def get_posts(db: _orm.Session, skip: int, limit: int):
+    return db.query(_models.Post).offset(skip).limit(limit).all()
+
+def get_post(db:_orm.Session, post_id: int):
+    return db.query(_models.Post).filter(_models.Post.id == post_id).first()
