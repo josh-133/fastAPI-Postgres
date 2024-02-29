@@ -24,3 +24,12 @@ def read_users(
 ):
     users = _services.get_users(db=db, skip=skip, limit=limit)
     return users
+
+@app.get("/users/{user_id}", response_model=_schemas.User)
+def read_user(user_id: int, db: _orm.Session=_fastapi.Depends(_services.get_db)):
+    db_user =_services.get_user(db=db, user_id=user_id)
+    
+    if db_user is None:
+        raise _fastapi.HTTPException(status_code=404, detail="sorry this user does not exist")
+    
+    return db_user
