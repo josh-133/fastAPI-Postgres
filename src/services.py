@@ -1,4 +1,5 @@
 import database as _database, models as _models, schemas as _schemas
+import datetime as _dt
 import sqlalchemy.orm as _orm
 
 def create_database():
@@ -44,3 +45,12 @@ def get_post(db:_orm.Session, post_id: int):
 def delete_post(db: _orm.Session, post_id: int):
     db.query(_models.Post).filter(_models.Post.id == post_id).delete()
     db.commit()
+    
+def update_post(db: _orm.Session, post: _schemas.PostCreate, post_id: int):
+    db_post = get_post(db=db, post_id=post_id)
+    db_post.title = post.title
+    db_post.content = post.content
+    db_post.date_last_updated = _dt.datetime.now()
+    db.commit()
+    db.refresh(db_post)
+    return db_post

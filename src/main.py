@@ -64,3 +64,11 @@ def read_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db
 def delete_post(post_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)):
     _services.delete_post(db=db, post_id=post_id)
     return {"message": f"Successfully deleted post with id: {post_id}"}
+
+@app.put("/posts/{post_id}", response_model=_schemas.Post)
+def update_post(
+    post_id: int,
+    post: _schemas.PostCreate,
+    db: _orm.Session = _fastapi.Depends(_services.get_db),
+):
+    return _services.update_post(db=db, post=post, post_id=post_id)
