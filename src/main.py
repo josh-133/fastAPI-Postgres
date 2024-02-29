@@ -33,3 +33,11 @@ def read_user(user_id: int, db: _orm.Session=_fastapi.Depends(_services.get_db))
         raise _fastapi.HTTPException(status_code=404, detail="sorry this user does not exist")
     
     return db_user
+
+@app.post("/users/{user_id}/posts", response_model=_schemas.Post)
+def create_post(
+    user_id: int,
+    post: _schemas.PostCreate,
+    db: _orm.Session = _fastapi.Depends(_services.get_db),
+):
+    return _services.create_post(db=db, post=post, user_id=user_id)
