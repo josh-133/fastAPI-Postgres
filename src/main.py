@@ -2,8 +2,22 @@ import fastapi as _fastapi
 from typing import List
 import sqlalchemy.orm as _orm
 import services as _services, schemas as _schemas
+from fastapi.middleware.cors import CORSMiddleware
 
 app = _fastapi.FastAPI()
+
+# Define the list of allowed origins (your Angular frontend URL)
+# origins = [
+#     "http://localhost:4200/",  # Angular frontend URL
+# ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 _services.create_database()
 
